@@ -33,7 +33,7 @@ body {
 }
 
 .book-title {
-    color: navy;
+    font-size: 23px;
 }
 
 .book-body {
@@ -43,6 +43,9 @@ body {
 .book-btn {
     display: flex;
     justify-content: flex-end;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
 }
 
 button {
@@ -87,6 +90,7 @@ button {
     /* supaya isi barisnya ga berubah meski isinya beda */
     display: grid;
     grid-template-rows: 1fr 2fr 1fr 1fr;
+    position: relative;
 }
 
 .add-book-modal {
@@ -97,6 +101,10 @@ button {
     border-radius: 10px;
     padding: 10px;
     border: 2px solid;
+}
+
+#add-book-modal { 
+    display: none;
 }
 
 .modal-title {
