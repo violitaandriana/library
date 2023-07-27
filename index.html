@@ -19,10 +19,11 @@
 
     <div class="container" id="books-container">
         <div class="book-card" id="book-card">
-            <h4 class="book-title" id="book-title">📖 Funiculi Funicula</h4>
+            <h4 class="book-title" id="book-title">📖 This is the example</h4>
             <div class="book-body" id="book-body">
-                by Toshikazu Kawaguchi <br> - 222 pages -
-            </div><hr>
+                by Author <br> - xxx pages -
+            </div>
+            <hr>
             <div class="book-btn">
                 <button class="read-btn">Read</button>
                 <button class="remove-btn">Remove</button>
@@ -30,11 +31,11 @@
         </div>
     </div>
     
-    <br><br>
     <!-- Add book modal -->
-    <div class="add-book-modal" id="add-book-modal">
-        <div class="modal-title">
-            <h3>Add Book</h3>
+    <div class="add-book-modal active" id="add-book-modal">
+        <div class="modal-header">
+            <div class="title">Add Book</div>
+            <button class="close-btn" id="close-btn">&times;</button>
         </div>
         <div class="modal-body">
             <div class="form-group">
@@ -51,15 +52,15 @@
             </div>
             <div class="form-group">
                 <label for="read">Read ?</label>
-                <input type="checkbox" id="read" name="read" value="Yes" required> 
+                <input type="checkbox" id="isRead" name="isRead"> 
                 <label for="">Yes</label>
             </div>
-            <button type="submit" id="submit" class="read-btn">
+            <button type="submit" id="submit-btn" class="submit-btn">
                 Submit
             </button>
         </div>
     </div>
-
+    <div id="overlay-modal"></div>
 </body>
 
 <script src="script.js"></script>
