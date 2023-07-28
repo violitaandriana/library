@@ -6,21 +6,38 @@ const addButton = document.getElementById('add-btn');
 const closeButton = document.getElementById('close-btn');
 const overlay = document.getElementById('overlay-modal');
 const submitButton = document.getElementById('submit-btn');
-const removeButton = document.getElementById('remove-btn');
-const readButton = document.getElementById('read-btn');
+const removeButton = document.querySelector('.remove-btn');
+const readButton = document.querySelector('.read-btn');
+const notReadButton = document.querySelector('.not-read-btn');
 
 addButton.addEventListener('click', showAddBookModal);
 closeButton.addEventListener('click', closeModal);
-submitButton.addEventListener('click', addBook);
-removeButton.addEventListener('click', removeBook);
-readButton.addEventListener('click', changeToRead);
+submitButton.addEventListener('click', (event) => {
+    addBook(event);
+});
+// removeButton.addEventListener('click', removeBook);
+// readButton.addEventListener('click', changeToNotRead);
+// notReadButton.addEventListener('click', changeToRead);
 
+const radioButtons = document.querySelectorAll('input[name="read"]');
+
+let isRead;
+function getCheckedButton() {
+    radioButtons.forEach(button => {
+        if (button.checked) {
+            isRead = button.value;
+            button.checked = false;
+        }
+    });
+    return isRead;
+}
 
 // Constructor -> membuat sebuah object dengan properties'
-function Book(title, author, pages) {
+function Book(title, author, pages, read) {
     this.title = title;
     this.author = author;
     this.pages = pages;
+    this.read = read;
 }
 
 // 
@@ -33,13 +50,14 @@ function addBookToLibrary(book) {
 
 function displayBooks(library) {
     resetBookCards();
-    library.forEach(book => {
+    library.forEach((book, index) => {
         // HTML element
         const bookCard = document.createElement('div');
         const bookTitle = document.createElement('div');
         const bookBody = document.createElement('div');
         const bookButton = document.createElement('div');
         const readButton = document.createElement('button');
+        const notReadButton = document.createElement('button');
         const removeButton = document.createElement('button');
         const hr = document.createElement('hr');
         // for \r\n or enter
@@ -50,33 +68,39 @@ function displayBooks(library) {
         bookBody.classList.add('book-body');
         bookButton.classList.add('book-btn');
         readButton.classList.add('read-btn');
+        notReadButton.classList.add('not-read-btn');
         removeButton.classList.add('remove-btn');
         // textContent in HTML
         bookTitle.textContent = `📖${book.title}`;
         bookBody.textContent = 'by ' + book.author + '\r\n';
         bookBody.textContent += '- ' + book.pages + ' pages - ';
         readButton.textContent = `Read`;
+        notReadButton.textContent = `Not read`;
         removeButton.textContent = `Remove`;
         // appendChild
         bookCard.appendChild(bookTitle);
         bookCard.appendChild(bookBody);
         bookCard.appendChild(hr);
+
+        readButton.addEventListener('click', () => {
+            changeToRead(index);
+        });
+        notReadButton.addEventListener('click', () => {
+            changeToNotRead(index);
+        });
+        removeButton.addEventListener('click', () => {
+            removeBook(index);
+        });
+
         bookCard.appendChild(bookButton);
-        bookButton.appendChild(readButton);
+        if (book.read === "yes") {
+            bookButton.appendChild(readButton);
+        }
+        else {
+            bookButton.appendChild(notReadButton);
+        }
         bookButton.appendChild(removeButton);
         booksContainer.appendChild(bookCard);
-
-        //    booksContainer.innerHTML += 
-        //    `<div class='book-card' id='book-card'>
-        //    <h4 class='book-title' id='book-title'>📖${book.title}
-        //    <div class='book-body' id='book-body'>
-        //         by ${book.author} <br> - ${book.pages} pages -
-        //     </div><hr>
-        //     <div class='book-btn'>
-        //         <button class='read-btn'>Read</button>
-        //         <button class='remove-btn'>Remove</button>
-        //     </div>
-        //     `;
     });
 }
 
@@ -86,33 +110,35 @@ function resetBookCards() {
 }
 
 function showAddBookModal() {
+    // addBookModal.style.opacity = 1;
     addBookModal.style.display = 'block';
     overlay.style.display = 'block';
 }
 
 function closeModal() {
-    clearModal();
     addBookModal.style.display = 'none';
     overlay.style.display = 'none';
+    clearModal();
 }
 
 function clearModal() {
     title.value = '';
     author.value = '';
     pages.value = '';
-    isRead.checked = false;
 }
 
 function getBookFromUser() {
     const title = document.getElementById('title').value;
     const author = document.getElementById('author').value;
     const pages = document.getElementById('pages').value;
-    const isRead = document.getElementById('isRead').value;
-    const book = new Book(title, author, pages);
+    read = getCheckedButton();
+    console.log(title, author, pages, read);
+    const book = new Book(title, author, pages, read);
     return book;
 }
 
-function addBook() {
+function addBook(event) {
+    event.preventDefault();
     const newBook = getBookFromUser();
     addBookToLibrary(newBook);
     closeModal();
@@ -122,19 +148,31 @@ function addBook() {
 // dapat id book nya ??
 // dari id, dicari di library, trs dihapus
 // render ulang buku setelah dihapus
-function removeBook() {
-
+function removeBook(index) {
+    myLibrary.splice(index, 1);
+    displayBooks(myLibrary);
 }
 
-// user tekan button read
-// button read nya ganti warna + valuenya jadi true
-function changeToRead() {
-
+// Kebalikan, kalau readButton diklik -> ganti notReadButton
+function changeToRead(index) {
+    myLibrary[index].read = 'no';
+    displayBooks(myLibrary);
 }
 
+function changeToNotRead(index) {
+    myLibrary[index].read = 'yes';
+    displayBooks(myLibrary);
+}
 
-// function checkbox() {
-//     let checked = false;
-//     if (read)
-// }
-
+// Other way to displayBooks (not recommended)
+//    booksContainer.innerHTML += 
+//    `<div class='book-card' id='book-card'>
+//    <h4 class='book-title' id='book-title'>📖${book.title}
+//    <div class='book-body' id='book-body'>
+//         by ${book.author} <br> - ${book.pages} pages -
+//     </div><hr>
+//     <div class='book-btn'>
+//         <button class='read-btn'>Read</button>
+//         <button class='remove-btn'>Remove</button>
+//     </div>
+//     `;
