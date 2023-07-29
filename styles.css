@@ -120,7 +120,7 @@ button {
 }
 
 #add-book-modal {
-    display: none
+    display: none;
     /* opacity: 0; */
 }
 

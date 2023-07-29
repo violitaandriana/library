@@ -9,17 +9,14 @@ const submitButton = document.getElementById('submit-btn');
 const removeButton = document.querySelector('.remove-btn');
 const readButton = document.querySelector('.read-btn');
 const notReadButton = document.querySelector('.not-read-btn');
+const radioButtons = document.querySelectorAll('input[name="read"]');
 
 addButton.addEventListener('click', showAddBookModal);
 closeButton.addEventListener('click', closeModal);
 submitButton.addEventListener('click', (event) => {
     addBook(event);
 });
-// removeButton.addEventListener('click', removeBook);
-// readButton.addEventListener('click', changeToNotRead);
-// notReadButton.addEventListener('click', changeToRead);
 
-const radioButtons = document.querySelectorAll('input[name="read"]');
 
 let isRead;
 function getCheckedButton() {
@@ -83,10 +80,10 @@ function displayBooks(library) {
         bookCard.appendChild(hr);
 
         readButton.addEventListener('click', () => {
-            changeToRead(index);
+            changeToNotRead(index);
         });
         notReadButton.addEventListener('click', () => {
-            changeToNotRead(index);
+            changeToRead(index);
         });
         removeButton.addEventListener('click', () => {
             removeBook(index);
@@ -137,11 +134,27 @@ function getBookFromUser() {
     return book;
 }
 
+// Validasi antar buku hrs beda 
+// Cek newBook bandingin ke array myLibrary
 function addBook(event) {
     event.preventDefault();
     const newBook = getBookFromUser();
+    if (validateBook(newBook) === true) {
+        clearModal();
+        return;
+    }
     addBookToLibrary(newBook);
     closeModal();
+}
+
+function validateBook(newBook) {
+    for(let i = 0; i < myLibrary.length; i++) {
+        if (myLibrary[i].title === newBook.title && myLibrary[i].author === newBook.author) {
+            alert("This book is already here!");
+            return true;
+        }
+    }
+    return false;
 }
 
 // user tekan button remove
@@ -154,12 +167,12 @@ function removeBook(index) {
 }
 
 // Kebalikan, kalau readButton diklik -> ganti notReadButton
-function changeToRead(index) {
+function changeToNotRead(index) {
     myLibrary[index].read = 'no';
     displayBooks(myLibrary);
 }
 
-function changeToNotRead(index) {
+function changeToRead(index) {
     myLibrary[index].read = 'yes';
     displayBooks(myLibrary);
 }
