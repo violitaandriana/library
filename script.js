@@ -19,33 +19,28 @@ submitButton.addEventListener('click', (event) => {
     addBook(event);
 });
 
-function getCheckedButton() {
-    if (radioNo.checked) {
-        isRead = radioNo.value;
-        radioNo.checked = false;
+// Module Pattern
+const Book = (() => {
+    const createBook = (title, author, pages, read) => {
+        console.log({title, author, pages, read});
+        return {title, author, pages, read};
     }
-    // the default is read, so it's else not else if
-    else {
-        isRead = radioYes.value;
-        radioYes.checked = false;
-    }
-    return isRead;
-}
-
-// Constructor -> membuat sebuah object dengan properties'
-function Book(title, author, pages, read) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
-}
-
-function addBookToLibrary(book) {
-    console.log(book);
-    console.log(myLibrary);
-    myLibrary.push(book);
-    displayBooks(myLibrary);
-}
+    const addBookToLibrary = (book) => {
+        console.log(book);
+        console.log(myLibrary);
+        myLibrary.push(book);
+        displayBooks(myLibrary);
+    };
+    const removeBook = (index) => {
+        myLibrary.splice(index, 1);
+        displayBooks(myLibrary);
+    };
+    return {
+        createBook,
+        addBookToLibrary,
+        removeBook
+    };
+})();
 
 function displayBooks(library) {
     resetBookCards();
@@ -88,7 +83,7 @@ function displayBooks(library) {
             changeToRead(index);
         });
         removeButton.addEventListener('click', () => {
-            removeBook(index);
+            Book.removeBook(index);
         });
 
         bookCard.appendChild(bookButton);
@@ -125,13 +120,27 @@ function clearModal() {
     pages.value = '';
 }
 
+function getCheckedButton() {
+    if (radioNo.checked) {
+        isRead = radioNo.value;
+        radioNo.checked = false;
+    }
+    // the default is read, so it's else not else if
+    else {
+        isRead = radioYes.value;
+        radioYes.checked = false;
+    }
+    return isRead;
+}
+
 function getBookFromUser() {
     const title = document.getElementById('title').value;
     const author = document.getElementById('author').value;
     const pages = document.getElementById('pages').value;
     read = getCheckedButton();
     console.log(title, author, pages, read);
-    const book = new Book(title, author, pages, read);
+    // const book = new Book(title, author, pages, read);
+    const book = Book.createBook(title, author, pages, read);
     return book;
 }
 
@@ -144,7 +153,7 @@ function addBook(event) {
         clearModal();
         return;
     }
-    addBookToLibrary(newBook);
+    Book.addBookToLibrary(newBook);
     closeModal();
 }
 
@@ -156,14 +165,6 @@ function validateBook(newBook) {
         }
     }
     return false;
-}
-
-// user tekan button remove
-// dari id, dicari di library, trs dihapus
-// render ulang buku setelah dihapus
-function removeBook(index) {
-    myLibrary.splice(index, 1);
-    displayBooks(myLibrary);
 }
 
 // Kebalikan, kalau readButton diklik -> ganti notReadButton
@@ -189,3 +190,25 @@ function changeToRead(index) {
 //         <button class='remove-btn'>Remove</button>
 //     </div>
 //     `;
+
+// function Book(title, author, pages, read) {
+//     this.title = title;
+//     this.author = author;
+//     this.pages = pages;
+//     this.read = read;
+// }
+
+// function addBookToLibrary(book) {
+//     console.log(book);
+//     console.log(myLibrary);
+//     myLibrary.push(book);
+//     displayBooks(myLibrary);
+// }
+
+// user tekan button remove
+// dari id, dicari di library, trs dihapus
+// render ulang buku setelah dihapus
+// function removeBook(index) {
+//     myLibrary.splice(index, 1);
+//     displayBooks(myLibrary);
+// }
