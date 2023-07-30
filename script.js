@@ -1,4 +1,5 @@
 let myLibrary = [];
+let isRead;
 
 const booksContainer = document.getElementById('books-container');
 const addBookModal = document.getElementById('add-book-modal');
@@ -9,7 +10,8 @@ const submitButton = document.getElementById('submit-btn');
 const removeButton = document.querySelector('.remove-btn');
 const readButton = document.querySelector('.read-btn');
 const notReadButton = document.querySelector('.not-read-btn');
-const radioButtons = document.querySelectorAll('input[name="read"]');
+const radioYes = document.querySelector('input[name="readStatus"][value="yes"]');
+const radioNo = document.querySelector('input[name="readStatus"][value="no"]');
 
 addButton.addEventListener('click', showAddBookModal);
 closeButton.addEventListener('click', closeModal);
@@ -17,15 +19,16 @@ submitButton.addEventListener('click', (event) => {
     addBook(event);
 });
 
-
-let isRead;
 function getCheckedButton() {
-    radioButtons.forEach(button => {
-        if (button.checked) {
-            isRead = button.value;
-            button.checked = false;
-        }
-    });
+    if (radioNo.checked) {
+        isRead = radioNo.value;
+        radioNo.checked = false;
+    }
+    // the default is read, so it's else not else if
+    else {
+        isRead = radioYes.value;
+        radioYes.checked = false;
+    }
     return isRead;
 }
 
@@ -37,7 +40,6 @@ function Book(title, author, pages, read) {
     this.read = read;
 }
 
-// 
 function addBookToLibrary(book) {
     console.log(book);
     console.log(myLibrary);
@@ -107,7 +109,6 @@ function resetBookCards() {
 }
 
 function showAddBookModal() {
-    // addBookModal.style.opacity = 1;
     addBookModal.style.display = 'block';
     overlay.style.display = 'block';
 }
@@ -134,12 +135,12 @@ function getBookFromUser() {
     return book;
 }
 
-// Validasi antar buku hrs beda 
+// Validasi antar buku hrs beda saat user add new book
 // Cek newBook bandingin ke array myLibrary
 function addBook(event) {
     event.preventDefault();
     const newBook = getBookFromUser();
-    if (validateBook(newBook) === true) {
+    if (validateBook(newBook)) {
         clearModal();
         return;
     }
@@ -158,7 +159,6 @@ function validateBook(newBook) {
 }
 
 // user tekan button remove
-// dapat id book nya ??
 // dari id, dicari di library, trs dihapus
 // render ulang buku setelah dihapus
 function removeBook(index) {
