@@ -87,7 +87,8 @@ function displayBooks(library) {
             changeToRead(index);
         });
         removeButton.addEventListener('click', () => {
-            Book.removeBook(index);
+            currentBook = getBookFromUser();
+            currentBook.removeBook(index);
         });
 
         bookCard.appendChild(bookButton);
@@ -144,8 +145,6 @@ function getBookFromUser() {
     read = getCheckedButton();
     console.log(title, author, pages, read);
     const userBook = new Book(title, author, pages, read);
-    // for Module Pattern:
-    // const book = Book.createBook(title, author, pages, read);
     return userBook;
 }
 
@@ -158,9 +157,7 @@ function addBook(event) {
         clearModal();
         return;
     }
-    userBook.addBookToLibrary(newBook);
-    // for Module Pattern:
-    // Book.addBookToLibrary(newBook);
+    newBook.addBookToLibrary(newBook);
     closeModal();
 }
 
@@ -183,62 +180,3 @@ function changeToRead(index) {
     myLibrary[index].read = 'yes';
     displayBooks(myLibrary);
 }
-
-// Other way to displayBooks (not recommended)
-//    booksContainer.innerHTML += 
-//    `<div class='book-card' id='book-card'>
-//    <h4 class='book-title' id='book-title'>📖${book.title}
-//    <div class='book-body' id='book-body'>
-//         by ${book.author} <br> - ${book.pages} pages -
-//     </div><hr>
-//     <div class='book-btn'>
-//         <button class='read-btn'>Read</button>
-//         <button class='remove-btn'>Remove</button>
-//     </div>
-//     `;
-
-// function Book(title, author, pages, read) {
-//     this.title = title;
-//     this.author = author;
-//     this.pages = pages;
-//     this.read = read;
-// }
-
-// function addBookToLibrary(book) {
-//     console.log(book);
-//     console.log(myLibrary);
-//     myLibrary.push(book);
-//     displayBooks(myLibrary);
-// }
-
-// user tekan button remove
-// dari id, dicari di library, trs dihapus
-// render ulang buku setelah dihapus
-// function removeBook(index) {
-//     myLibrary.splice(index, 1);
-//     displayBooks(myLibrary);
-// }
-
-
-// Module Pattern
-// const Book = (() => {
-//     const createBook = (title, author, pages, read) => {
-//         console.log({title, author, pages, read});
-//         return {title, author, pages, read};
-//     }
-//     const addBookToLibrary = (book) => {
-//         console.log(book);
-//         console.log(myLibrary);
-//         myLibrary.push(book);
-//         displayBooks(myLibrary);
-//     };
-//     const removeBook = (index) => {
-//         myLibrary.splice(index, 1);
-//         displayBooks(myLibrary);
-//     };
-//     return {
-//         createBook,
-//         addBookToLibrary,
-//         removeBook
-//     };
-// })();
