@@ -19,28 +19,32 @@ submitButton.addEventListener('click', (event) => {
     addBook(event);
 });
 
-// Module Pattern
-const Book = (() => {
-    const createBook = (title, author, pages, read) => {
-        console.log({title, author, pages, read});
+// Class
+class Book {
+    constructor(title, author, pages, read) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
+    }
+
+    // Getter
+    get book() {
         return {title, author, pages, read};
     }
-    const addBookToLibrary = (book) => {
-        console.log(book);
-        console.log(myLibrary);
+
+    // Method
+    addBookToLibrary(book) {
         myLibrary.push(book);
         displayBooks(myLibrary);
-    };
-    const removeBook = (index) => {
+    }
+
+    removeBook(index) {
         myLibrary.splice(index, 1);
         displayBooks(myLibrary);
-    };
-    return {
-        createBook,
-        addBookToLibrary,
-        removeBook
-    };
-})();
+    }
+}
+
 
 function displayBooks(library) {
     resetBookCards();
@@ -98,7 +102,7 @@ function displayBooks(library) {
     });
 }
 
-// Agar card-nya dirender ulang dari awal, bukan udah ada trs dirender lagi (ngulang terus)
+// so the card is rendered from beginning, not duplicated every print
 function resetBookCards() {
     booksContainer.textContent = '';
 }
@@ -139,13 +143,14 @@ function getBookFromUser() {
     const pages = document.getElementById('pages').value;
     read = getCheckedButton();
     console.log(title, author, pages, read);
-    // const book = new Book(title, author, pages, read);
-    const book = Book.createBook(title, author, pages, read);
-    return book;
+    const userBook = new Book(title, author, pages, read);
+    // for Module Pattern:
+    // const book = Book.createBook(title, author, pages, read);
+    return userBook;
 }
 
-// Validasi antar buku hrs beda saat user add new book
-// Cek newBook bandingin ke array myLibrary
+// Validation for each book should be different
+// Check the new book and compare it to myLibrary[]
 function addBook(event) {
     event.preventDefault();
     const newBook = getBookFromUser();
@@ -153,7 +158,9 @@ function addBook(event) {
         clearModal();
         return;
     }
-    Book.addBookToLibrary(newBook);
+    userBook.addBookToLibrary(newBook);
+    // for Module Pattern:
+    // Book.addBookToLibrary(newBook);
     closeModal();
 }
 
@@ -167,7 +174,6 @@ function validateBook(newBook) {
     return false;
 }
 
-// Kebalikan, kalau readButton diklik -> ganti notReadButton
 function changeToNotRead(index) {
     myLibrary[index].read = 'no';
     displayBooks(myLibrary);
@@ -212,3 +218,27 @@ function changeToRead(index) {
 //     myLibrary.splice(index, 1);
 //     displayBooks(myLibrary);
 // }
+
+
+// Module Pattern
+// const Book = (() => {
+//     const createBook = (title, author, pages, read) => {
+//         console.log({title, author, pages, read});
+//         return {title, author, pages, read};
+//     }
+//     const addBookToLibrary = (book) => {
+//         console.log(book);
+//         console.log(myLibrary);
+//         myLibrary.push(book);
+//         displayBooks(myLibrary);
+//     };
+//     const removeBook = (index) => {
+//         myLibrary.splice(index, 1);
+//         displayBooks(myLibrary);
+//     };
+//     return {
+//         createBook,
+//         addBookToLibrary,
+//         removeBook
+//     };
+// })();
