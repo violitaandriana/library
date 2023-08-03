@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/normalize.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+    <header>
+        <h1>Library 📖</h1>
+    </header>
+    <div class="add-section">
+        <h4>You can add more book here</h4>
+        <button class="add-btn" id="add-btn">Add book</button>
+    </div>
+
+    <div class="container" id="books-container">
+        <div class="book-card" id="book-card">
+            <h4 class="book-title" id="book-title">📖 This is the example</h4>
+            <div class="book-body" id="book-body">
+                by Author <br> - xxx pages -
+            </div>
+            <hr>
+            <div class="book-btn">
+                <button class="read-btn">Read</button>
+                <button class="not-read-btn" hidden>Not read</button>
+                <button class="remove-btn">Remove</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add book modal -->
+    <form action="#">
+        <div class="add-book-modal" id="add-book-modal">
+            <div class="modal-header">
+                <div class="title">Add Book</div>
+                <button class="close-btn" id="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" name="title" class="form-control" maxlength="50" required />
+                </div>
+                <div class="form-group">
+                    <label for="author">Author</label>
+                    <input type="text" id="author" name="author" class="form-control" maxlength="20" required />
+                </div>
+                <div class="form-group">
+                    <label for="pages">Pages</label>
+                    <input type="number" id="pages" name="pages" class="form-control" maxlength="50" min="1" required />
+                </div>
+                <div class="form-group">
+                    <span>Read ?</span>
+                    <input type="radio" name="readStatus" id="yes" value="yes" />
+                    <label for="yes">Yes</label>
+                    <input type="radio" name="readStatus" id="no" value="no" />
+                    <label for="no">No</label>
+                </div>
+                <button type="submit" id="submit-btn" class="submit-btn">
+                    Submit
+                </button>
+            </div>
+        </div>
+    </form>
+    <div id="overlay-modal"></div>
+</body>
+
+<script src="script.js"></script>
+
+</html>

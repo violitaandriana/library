@@ -1,0 +1,150 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    --box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+header {
+    text-align: center;
+    background-color: #ffffff;
+    padding: 10px 0px;
+    margin: 0;
+    box-shadow: var(--box-shadow);
+}
+
+.add-section {
+    padding: 30px 0px;
+    text-align: center;
+}
+
+.add-btn {
+    background-color: #eaeaea;
+    font-weight: bold;
+}
+
+.add-btn:hover {
+    background-color: #5ee6fe;
+}
+
+body {
+    background-color: #dcf7fc !important;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 12px;
+    justify-items: center;
+    align-items: center;
+}
+
+.book-card {
+    width: 340px;
+    height: 240px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid black;
+    /* supaya isi barisnya ga berubah meski isinya beda */
+    display: grid;
+    grid-template-rows: 1fr 2fr 1fr 1fr;
+    position: relative;
+}
+
+.book-title {
+    font-size: 23px;
+}
+
+.book-body {
+    font-size: 18px;
+}
+
+.book-btn {
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+button {
+    padding: 6px 15px;
+    border-radius: 10px !important;
+    cursor: pointer;
+    border: 1.4px solid black;
+}
+
+.read-btn, .submit-btn {
+    margin-right: 4px;
+    background-color: #b3ffcf;
+    display: block;
+}
+
+.read-btn:hover, .submit-btn:hover {
+    background-color: #4bfa8b;
+}
+
+.remove-btn {
+    background-color: #f87171;
+}
+
+.remove-btn:hover {
+    background-color: #e83a3aeb;
+}
+
+.not-read-btn {
+    background-color: #a2bdfc;
+    margin-right: 4px;
+    display: block;
+}
+
+.not-read-btn:hover {
+    background-color: #879bc9;
+}
+
+.add-book-modal {
+    position: fixed; /* kalau scroll, modal bisa ikut */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 360px;
+    max-width: 60%;
+    height: 460px; 
+    max-height: 80%;
+    background-color: #ecfccb;
+    border-radius: 10px;
+    border: 2px solid black;
+    z-index: 10; /* spy bisa selalu paling atas posisinya */
+}
+
+#add-book-modal {
+    display: none;
+}
+
+.modal-header {
+    font-size: 20px;
+    padding: 10px;
+    border-bottom: 1px solid black !important;
+}
+
+.close-btn {
+    cursor: pointer;
+    border: none;
+    background-color: inherit;
+    float: right;
+    margin-top: -8px;
+}
+
+#overlay-modal {
+    position: fixed;
+    opacity: 0.6;
+    /* parent's full width and height */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+}
